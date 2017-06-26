@@ -1,0 +1,240 @@
+DROP DATABASE class_b;
+# 创建数据库
+CREATE DATABASE class_b;
+
+USE class_b;
+DROP TABLE info_input;
+DROP TABLE ticket_seller;
+DROP TABLE ticket;
+DROP TABLE buy_ticket;
+
+
+# 游客用户
+CREATE TABLE user (
+  user_id   INT      NOT NULL AUTO_INCREMENT,
+  user_name CHAR(15) NOT NULL,
+  user_psw  CHAR(20) NOT NULL,
+  user_age  INT CHECK (user_age > 0 AND user_age <= 120),
+  PRIMARY KEY (user_id)
+)
+  CHARSET = utf8;
+
+#门票
+CREATE TABLE ticket (
+  ticket_name  CHAR(15),
+  ticket_no    INT  AUTO_INCREMENT,
+  ticket_price INT,
+  ticket_rate  INT,
+  ticket_type  CHAR(20),
+  ticket_begin DATETIME DEFAULT ,
+  ticket_end   DATETIME,
+  PRIMARY KEY (ticket_no)
+)
+  CHARSET = utf8;
+
+# 退票
+CREATE TABLE refund_ticket (
+  user_id       INT,
+  ticket_no     INT,
+  refund_ticket DATETIME,
+  PRIMARY KEY (ticket_no, user_id),
+  FOREIGN KEY (ticket_no) REFERENCES class_b.ticket (ticket_no),
+  FOREIGN KEY (user_id) REFERENCES class_b.user (user_id)
+)
+  CHARSET = utf8;
+
+# 购票
+CREATE TABLE buy_ticket (
+  user_id    INT  NOT NULL ,
+  ticket_no  INT,
+  buy_ticket_time DATETIME,
+  PRIMARY KEY (ticket_no, user_id),
+  FOREIGN KEY (ticket_no) REFERENCES class_b.ticket (ticket_no),
+  FOREIGN KEY (user_id) REFERENCES class_b.user (user_id)
+)
+  CHARSET = utf8;
+
+# 销售员
+CREATE TABLE ticket_seller (
+  ticket_seller_id   INT  AUTO_INCREMENT,
+  ticket_seller_name CHAR(15),
+  ticket_seller_call CHAR(15),
+  ticket_seller_psw  CHAR(15),
+  PRIMARY KEY (ticket_seller_id)
+)
+  CHARSET = utf8;
+
+# 填写销售情况
+CREATE TABLE INFO_INPUT (
+  ticket_seller_id INT,
+  ticket_no        INT,
+  user_id        INT,
+  SaleDate DATETIME,
+  PRIMARY KEY (ticket_seller_id, ticket_no, user_id),
+  FOREIGN KEY (ticket_seller_id) REFERENCES class_b.ticket_seller (ticket_seller_id),
+  FOREIGN KEY (ticket_no) REFERENCES class_b.ticket (ticket_no),
+  FOREIGN KEY (user_id) REFERENCES class_b.user (user_id)
+)  CHARSET = utf8;
+
+# 插入数据
+
+# 插入游客信息
+INSERT INTO user (user_name, user_psw, user_age) VALUES ("杨冰玉", 123456, 18);
+
+# 插入销售员
+INSERT INTO ticket_seller (ticket_seller_id, ticket_seller_name, ticket_seller_call, ticket_seller_psw) VALUES (4,"李晓津",18234110631,123456);
+
+INSERT INTO ticket_seller (ticket_seller_name, ticket_seller_call, ticket_seller_psw) VALUES ("庞明鲜",18234110631,123123);
+
+# 发布票
+INSERT INTO ticket (ticket_name, ticket_no, ticket_price, ticket_rate, ticket_type, ticket_begin, ticket_end) VALUES ("二龙山",1,20,10,"团体票","2017-6-25","2017-6-26");
+
+# 发布票
+INSERT INTO ticket (ticket_name, ticket_price, ticket_rate, ticket_type, ticket_begin, ticket_end) VALUES ("二龙山",20,10,"团体票","2017-6-25","2017-6-26");
+
+# 购买票
+INSERT INTO buy_ticket (user_id, ticket_no, buy_ticket_time) VALUES (
+    1,1,"2017-6-25"
+);
+
+# 退票
+INSERT INTO refund_ticket (user_id,ticket_no,refund_ticket) VALUES(1,1,"2017-6-25");
+
+# 销售员填写销售信息
+INSERT INTO ticket (ticket_name,ticket_no, ticket_price, ticket_rate, ticket_type, ticket_begin, ticket_end) VALUES ("二龙山",2,20,10,"团体票","2017-6-25","2017-6-26");
+
+INSERT INTO  info_input(ticket_seller_id,ticket_no,user_id,class_b.INFO_INPUT.SaleDate) VALUES(4,2,1,"2017-6-25");
+
+INSERT INTO ticket (ticket_name,ticket_no, ticket_price, ticket_rate, ticket_type, ticket_begin, ticket_end) VALUES ("二龙山",3,30,10,"成年票","2017-6-25","2017-6-26");
+
+INSERT INTO  info_input(ticket_seller_id,ticket_no,user_id,class_b.INFO_INPUT.SaleDate) VALUES(4,3,1,"2017-6-25");
+
+
+# 查询所有销售员的月份销售情况
+# SELECT
+#   ticket_seller.ticket_seller_id,
+#   ticket_seller.ticket_seller_name,
+#   ticket_seller.ticket_seller_call,
+# FROM INFO_INPUT, ticket, ticket_seller
+# WHERE;
+
+SELECT month(SaleDate)月份,sum(ticket.ticket_price)销售金额,count(ticket.ticket_no)销售量
+FROM INFO_INPUT, ticket WHERE INFO_INPUT.ticket_no = ticket.ticket_no GROUP BY  month(INFO_INPUT.SaleDate);
+
+
+# 查询各种门票价格的销售情况
+    # 查询总的销售量
+SELECT
+  ticket.ticket_type,
+  ticket.ticket_price,
+  sum(ticket.ticket_price)总收入,
+  count(ticket.ticket_type)销售量
+FROM ticket
+GROUP BY ticket_type;
+
+      # 查询某个销售员的销售量
+
+
+
+SELECT
+  ticket.ticket_type,
+  ticket.ticket_price,
+  sum(ticket.ticket_price)总收入,
+  count(ticket.ticket_no)销售量
+FROM ticket,INFO_INPUT WHERE ticket_seller_id =4 AND INFO_INPUT.ticket_no = ticket.ticket_no GROUP BY ticket_type;
+
+
+
+# 查询某营业员指定日期的销售情况（营业员界面）(未减去退票的)
+
+
+SELECT *
+FROM ticket, INFO_INPUT
+WHERE ticket_seller_id = 4 AND INFO_INPUT.ticket_no = ticket.ticket_no AND year(SaleDate)= "2017" AND month(SaleDate) = "6" AND day(SaleDate) = "25";
+
+SELECT *
+FROM ticket, INFO_INPUT
+WHERE ticket_seller_id = 4 AND INFO_INPUT.ticket_no = ticket.ticket_no AND SaleDate="2017-6-25";
+
+
+# 查询数据集合
+SELECT *
+FROM user
+WHERE user_id = 1;
+
+# 数据库的维护
+
+
+
+
+#########################################################################
+#               以下为测试案例
+###购票
+
+
+INSERT INTO ticket (ticket_name,ticket_no, ticket_price, ticket_rate, ticket_type, ticket_begin, ticket_end) VALUES ("二龙山",4,15,10,"儿童票","2017-5-1","2017-9-1");
+
+INSERT INTO  info_input(ticket_seller_id,ticket_no,user_id,class_b.INFO_INPUT.SaleDate) VALUES(4,3,1,"2017-5-25");
+
+# 退票
+INSERT INTO refund_ticket (user_id,ticket_no,refund_ticket) VALUES(1,3,"2017-6-25");
+
+# 退票后进行查询
+
+##去除退票后的结果
+###各个月份的销售情况
+SELECT month(SaleDate)月份,sum(ticket.ticket_price)销售金额,count(ticket.ticket_no)销售情况
+FROM INFO_INPUT,ticket
+  LEFT JOIN refund_ticket ON ticket.ticket_no = refund_ticket.ticket_no
+WHERE ticket.ticket_no NOT IN (SELECT ticket_no
+                               FROM refund_ticket) AND INFO_INPUT.ticket_no = ticket.ticket_no GROUP BY  month(INFO_INPUT.SaleDate);
+###查询各门票销售类型的销售情况
+SELECT
+  ticket.ticket_type,
+ticket.ticket_price,
+sum(ticket.ticket_price)总收入,
+count(ticket.ticket_no)销售量
+FROM ticket,INFO_INPUT WHERE ticket_seller_id =4 AND INFO_INPUT.ticket_no = ticket.ticket_no AND ticket.ticket_no NOT IN (SELECT ticket_no FROM refund_ticket) GROUP BY ticket_type;
+
+
+# 修改触发器时使用
+DROP TRIGGER
+definingTicket;
+
+
+#学生票15  原价30 成人票30 团体票25 小孩及老人票20
+# 定义触发器对票价进行管理
+CREATE TRIGGER definingTicket
+  BEFORE INSERT ON ticket
+  FOR EACH ROW
+   BEGIN
+     IF (new.ticket_type = "学生票")
+     THEN
+       SET NEW.ticket_price = "15";
+     ELSEIF (NEW.ticket_type = "成人票")
+       THEN SET NEW.ticket_price = "30";
+     ELSEIF (NEW.ticket_type = "团体票")
+       THEN SET NEW.ticket_price = "25";
+     ELSEIF (NEW.ticket_type = "老人票")
+       THEN SET NEW.ticket_price = "20";
+     ELSEIF (NEW.ticket_type = "儿童票")
+       THEN SET NEW.ticket_price = "20";
+     END IF;
+   END;
+# 买票(先插入票，在插入购买票)
+##############################################################
+INSERT INTO ticket (ticket_name, ticket_price, ticket_rate, ticket_type, ticket_begin, ticket_end) VALUES ("二龙山",20,10,"团体票","2017-6-25","2017-6-26");
+
+INSERT INTO buy_ticket(user_id, ticket_no, buy_ticket_time)VALUES(1,(SELECT max(ticket_no) FROM ticket ORDER BY ticket.ticket_no),curdate()) ;
+#############################################################
+
+#
+# SELECT max(ticket_no) FROM ticket ORDER BY ticket.ticket_no;
+# # 定义买票否直接对buy票表进行操作
+# CREATE TRIGGER buy_Ticket_test
+# AFTER INSERT ON ticket
+# FOR EACH ROW
+#   BEGIN
+#     INSERT INTO buy_ticket(user_id, ticket_no, buy_ticket_time)VALUES(?,ticket.ticket_no,curdate()) ;
+#   END;
+# ;

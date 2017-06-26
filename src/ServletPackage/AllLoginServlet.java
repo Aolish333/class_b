@@ -52,7 +52,7 @@ public class AllLoginServlet extends HttpServlet {
 //                out.print(session.getAttribute("student_start"));
                 out.print("欢迎" + user.getUser_id() + "进入主页...");
                 //学生登陆成功
-                response.setHeader("refresh", "3,URL=../client/buy_ticket.jsp");
+                response.setHeader("refresh", "3,URL=../client/tset4.jsp");
             }
         } else if (type.equals("seller")) {
 
