@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="class_b@localhost">
+  <database-model serializer="dbm" rdbms="MYSQL" format-version="4.1">
+    <root id="1"/>
+    <schema id="2" parent="1" name="class_b">
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <schema id="3" parent="1" name="class_a"/>
+    <schema id="4" parent="1" name="information_schema"/>
+    <schema id="5" parent="1" name="jsp"/>
+    <schema id="6" parent="1" name="lixiaojin"/>
+    <schema id="7" parent="1" name="mysql"/>
+    <schema id="8" parent="1" name="performance_schema"/>
+    <schema id="9" parent="1" name="sys"/>
+    <schema id="10" parent="1" name="test"/>
+    <schema id="11" parent="1" name="class_c"/>
+    <table id="12" parent="2" name="buy_ticket"/>
+    <table id="13" parent="2" name="info_input"/>
+    <table id="14" parent="2" name="refund_ticket"/>
+    <table id="15" parent="2" name="ticket"/>
+    <table id="16" parent="2" name="ticket_seller"/>
+    <table id="17" parent="2" name="user"/>
+    <column id="18" parent="12" name="user_id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="19" parent="12" name="ticket_no">
+      <Position>2</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="20" parent="12" name="buy_ticket_time">
+      <Position>3</Position>
+      <DataType>datetime|0</DataType>
+    </column>
+    <index id="21" parent="12" name="user_id">
+      <ColNames>user_id</ColNames>
+    </index>
+    <key id="22" parent="12" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>ticket_no
+user_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="23" parent="12" name="buy_ticket_ibfk_2">
+      <ColNames>user_id</ColNames>
+      <RefSchemaName>class_b</RefSchemaName>
+      <RefTableName>user</RefTableName>
+      <RefColNames>user_id</RefColNames>
+    </foreign-key>
+    <foreign-key id="24" parent="12" name="buy_ticket_ibfk_1">
+      <ColNames>ticket_no</ColNames>
+      <RefSchemaName>class_b</RefSchemaName>
+      <RefTableName>ticket</RefTableName>
+      <RefColNames>ticket_no</RefColNames>
+    </foreign-key>
+    <column id="25" parent="13" name="ticket_seller_id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="26" parent="13" name="ticket_no">
+      <Position>2</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="27" parent="13" name="user_id">
+      <Position>3</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="28" parent="13" name="SaleDate">
+      <Position>4</Position>
+      <DataType>datetime|0</DataType>
+    </column>
+    <index id="29" parent="13" name="ticket_no">
+      <ColNames>ticket_no</ColNames>
+    </index>
+    <index id="30" parent="13" name="user_id">
+      <ColNames>user_id</ColNames>
+    </index>
+    <key id="31" parent="13" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>ticket_seller_id
+ticket_no
+user_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="32" parent="13" name="info_input_ibfk_1">
+      <ColNames>ticket_seller_id</ColNames>
+      <RefSchemaName>class_b</RefSchemaName>
+      <RefTableName>ticket_seller</RefTableName>
+      <RefColNames>ticket_seller_id</RefColNames>
+    </foreign-key>
+    <foreign-key id="33" parent="13" name="info_input_ibfk_2">
+      <ColNames>ticket_no</ColNames>
+      <RefSchemaName>class_b</RefSchemaName>
+      <RefTableName>ticket</RefTableName>
+      <RefColNames>ticket_no</RefColNames>
+    </foreign-key>
+    <foreign-key id="34" parent="13" name="info_input_ibfk_3">
+      <ColNames>user_id</ColNames>
+      <RefSchemaName>class_b</RefSchemaName>
+      <RefTableName>user</RefTableName>
+      <RefColNames>user_id</RefColNames>
+    </foreign-key>
+    <column id="35" parent="14" name="user_id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="36" parent="14" name="ticket_no">
+      <Position>2</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="37" parent="14" name="refund_ticket">
+      <Position>3</Position>
+      <DataType>datetime|0</DataType>
+    </column>
+    <index id="38" parent="14" name="user_id">
+      <ColNames>user_id</ColNames>
+    </index>
+    <key id="39" parent="14" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>ticket_no
+user_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="40" parent="14" name="refund_ticket_ibfk_2">
+      <ColNames>user_id</ColNames>
+      <RefSchemaName>class_b</RefSchemaName>
+      <RefTableName>user</RefTableName>
+      <RefColNames>user_id</RefColNames>
+    </foreign-key>
+    <foreign-key id="41" parent="14" name="refund_ticket_ibfk_1">
+      <ColNames>ticket_no</ColNames>
+      <RefSchemaName>class_b</RefSchemaName>
+      <RefTableName>ticket</RefTableName>
+      <RefColNames>ticket_no</RefColNames>
+    </foreign-key>
+    <column id="42" parent="15" name="ticket_name">
+      <Position>1</Position>
+      <DataType>char(15)|0</DataType>
+    </column>
+    <column id="43" parent="15" name="ticket_no">
+      <Position>2</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="44" parent="15" name="ticket_price">
+      <Position>3</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="45" parent="15" name="ticket_rate">
+      <Position>4</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="46" parent="15" name="ticket_type">
+      <Position>5</Position>
+      <DataType>char(20)|0</DataType>
+    </column>
+    <column id="47" parent="15" name="ticket_begin">
+      <Position>6</Position>
+      <DataType>datetime|0</DataType>
+    </column>
+    <column id="48" parent="15" name="ticket_end">
+      <Position>7</Position>
+      <DataType>datetime|0</DataType>
+    </column>
+    <key id="49" parent="15" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>ticket_no</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <trigger id="50" parent="15" name="definingTicket">
+      <Turn>before-row</Turn>
+      <Events>I</Events>
+    </trigger>
+    <column id="51" parent="16" name="ticket_seller_id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="52" parent="16" name="ticket_seller_name">
+      <Position>2</Position>
+      <DataType>char(15)|0</DataType>
+    </column>
+    <column id="53" parent="16" name="ticket_seller_call">
+      <Position>3</Position>
+      <DataType>char(15)|0</DataType>
+    </column>
+    <column id="54" parent="16" name="ticket_seller_psw">
+      <Position>4</Position>
+      <DataType>char(15)|0</DataType>
+    </column>
+    <key id="55" parent="16" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>ticket_seller_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="56" parent="17" name="user_id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="57" parent="17" name="user_name">
+      <Position>2</Position>
+      <DataType>char(15)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="58" parent="17" name="user_psw">
+      <Position>3</Position>
+      <DataType>char(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="59" parent="17" name="user_age">
+      <Position>4</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <key id="60" parent="17" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>user_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+  </database-model>
+</dataSource>

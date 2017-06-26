@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="bootstrap-3.3.5">
+    <ANNOTATIONS>
+      <root url="jar://$PROJECT_DIR$/../class_b/web/lib/bootstrap-3.3.5.jar!/" />
+    </ANNOTATIONS>
+    <CLASSES />
+    <JAVADOC />
+    <NATIVE>
+      <root url="jar://$PROJECT_DIR$/../class_b/web/lib/bootstrap-3.3.5.jar!/" />
+    </NATIVE>
+    <SOURCES />
+  </library>
+</component>
