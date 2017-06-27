@@ -1,6 +1,8 @@
 package ServletPackage;
 
+import dao.TicketSellerPackage;
 import dao.UserPackage;
+import domain.TicketSeller;
 import domain.User;
 
 import javax.servlet.ServletException;
@@ -48,14 +50,26 @@ public class AllLoginServlet extends HttpServlet {
             resultSet = userPackage.DoLogin(user);
             if (resultSet != null) {
                 //传递seesion值
-                session.setAttribute("student_start",user.getUser_id());
+                session.setAttribute("User_id",id);
 //                out.print(session.getAttribute("student_start"));
                 out.print("欢迎" + user.getUser_id() + "进入主页...");
-                //学生登陆成功
-                response.setHeader("refresh", "3,URL=../client/tset4.jsp");
+                //用户登陆成功
+                response.setHeader("refresh", "1,URL=../client/buy_ticket.jsp");
             }
         } else if (type.equals("seller")) {
-
+            TicketSeller ticketSeller = new TicketSeller();
+            ticketSeller.setTicket_seller_id(Integer.parseInt(id));
+            ticketSeller.setTicket_seller_psw(user_psw);
+            TicketSellerPackage ticketSellerPackage = new TicketSellerPackage();
+            resultSet = ticketSellerPackage.DoLogin(ticketSeller);
+            if (resultSet != null) {
+                //传递seesion值
+                session.setAttribute("User_id",id);
+//                out.print(session.getAttribute("student_start"));
+                out.print("欢迎" + ticketSeller.getTicket_seller_id()+ "进入主页...");
+                //销售员登陆成功
+                response.setHeader("refresh", "1,URL=../client/salePage.jsp");
+            }
         } else {
             out.print("密码错误，三秒后将重回主页");
             response.setHeader("refresh", "2,URL=index.jsp");

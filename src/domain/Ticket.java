@@ -62,6 +62,19 @@ public class Ticket {
         this.ticket_type = ticket_type;
     }
 
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "ticket_name='" + ticket_name + '\'' +
+                ", ticket_no=" + ticket_no +
+                ", ticket_price=" + ticket_price +
+                ", ticket_rate=" + ticket_rate +
+                ", ticket_begin=" + ticket_begin +
+                ", ticket_end=" + ticket_end +
+                ", ticket_type='" + ticket_type + '\'' +
+                '}';
+    }
+
     String ticket_name;
     int ticket_no;
     int ticket_price;

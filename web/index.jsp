@@ -34,7 +34,7 @@
         <form action="/ServletPackage/AllLoginServlet" method="get">
             <ul class="form-content">
                 <li class="login-items">
-                    <span class="iconfont icon-yonghuming pics"></span><!--(矢量图库)-->
+                    <span class="iconfont icon-yonghuming pics"></span>
                     <input class="login-user" name="user" type="text" placeholder="IconDeposit">
                 </li>
                 <li class="login-items">

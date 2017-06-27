@@ -1,4 +1,4 @@
-<%--
+<%@ page import="static com.sun.xml.internal.org.jvnet.fastinfoset.FastInfosetSerializer.UTF_8" %><%--
   Created by IntelliJ IDEA.
   User: hp
   Date: 2017/6/25
@@ -14,6 +14,12 @@
     <link href="/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
 </head>
 <body>
+<%
+    request.setCharacterEncoding(UTF_8);
+    String user_id = (String) session.getAttribute("User_id");
+    session.setAttribute("User_id",user_id);
+%>
+<%--<%=session.getAttribute("User_id")%>--%>
 <div class="container">
     <div class="row clearfix eye-protector-processed">
         <div class="col-md-12 column eye-protector-processed">
@@ -22,7 +28,7 @@
                     <a href="#" class="eye-protector-processed">首页</a>
                 </li>
                 <li>
-                    <a href="dishonour.jsp">退票界面</a>
+                    <a href="dishonour.jsp?User_id=<%=user_id%>">退票界面</a>
                 </li>
                 <li class="dropdown pull-right">
                     <a href="#" data-toggle="dropdown" class="dropdown-toggle">下拉<strong class="caret"></strong></a>
@@ -46,7 +52,7 @@
             </ul>
             <div class="row clearfix eye-protector-processed">
                 <div class="col-md-6 column eye-protector-processed">
-                    <form role="form">
+                    <form role="form"  action="/ServletPackage/BuyTicketServlet">
                         <div class="form-group">
                             <div>
                                 <div class="form-group">
