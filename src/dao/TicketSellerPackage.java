@@ -5,10 +5,7 @@ import domain.SalesStatus;
 import domain.TicketSeller;
 import domain.User;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +16,7 @@ public class TicketSellerPackage extends CloseDao {
     /**
      * 记录销售情况
      */
-    public int InsertInfromation(InfoInput InfoInput) {
+    public int InsertInfromation(InfoInput infoInput) {
         int rs = 0;
         PreparedStatement ps = null;
         Connection connection = null;
@@ -29,8 +26,8 @@ public class TicketSellerPackage extends CloseDao {
             connection = conn.getConn();
             //Statement接口提供了查询语句和获取查询结果的基本方法
             ps = connection.prepareStatement(sql_insert);
-            ps.setString(1, String.valueOf(InfoInput.getTicket_seller_id()));
-            ps.setString(2, String.valueOf(InfoInput.getUser_id()));
+            ps.setInt(1,infoInput.getTicket_no());
+            ps.setInt(2,infoInput.getUser_id());
             rs = ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -120,9 +117,9 @@ public class TicketSellerPackage extends CloseDao {
         String sql_select = "SELECT ticket.ticket_type ,ticket.ticket_price, sum(ticket.ticket_price)总收入,count(ticket.ticket_no)销售量 FROM ticket, INFO_INPUT WHERE ticket_seller_id = ? AND INFO_INPUT.ticket_no = ticket.ticket_no AND SaleDate= ? AND ticket.ticket_no NOT IN (SELECT ticket_no FROM refund_ticket) GROUP BY ticket_type;";
         try {
             connection = conn.getConn();
-            ps = connection.prepareStatement(sql_select);
+            ps = connection.prepareCall(sql_select);
             ps.setString(1, String.valueOf(infoInput.getTicket_seller_id()));
-            ps.setString(2, String.valueOf(infoInput.getSaleDate()));
+            ps.setDate(2, Date.valueOf(infoInput.getSaleDate()));
             rs = ps.executeQuery();
             while (rs.next()) {
                 salesStatus = new SalesStatus();

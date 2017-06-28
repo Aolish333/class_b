@@ -18,7 +18,6 @@ public class UserPackageTest {
         user.setUser_id(1);
         user.setUser_psw("123456");
         userPackage.DoLogin(user);
-
     }
     @Test
     public void S() {
@@ -26,6 +25,7 @@ public class UserPackageTest {
         User user = new User();
         user.setUser_id(1);
         List<Ticket> list = userPackage.SelectUserId(user);
+//        System.out.println(list);
         for (Ticket ticket : list) {
             System.out.println(ticket.toString());
         }

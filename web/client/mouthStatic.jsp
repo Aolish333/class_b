@@ -29,7 +29,6 @@
         List<SalesStatus> list = ticketSellerPackage.SelectSalesStatus___Mounth(user);
     %>
 
-    <button type="button" class="btn btn-default" data-toggle="tooltip" title="默认的 Tooltip">查询</button>
     <table class="table table-striped">
         <caption>按月销售情况</caption>
         <thead>

@@ -1,7 +1,5 @@
 package domain;
 
-import java.util.Date;
-
 /**
  * Created by hp on 2017/6/25.
  */
@@ -30,16 +28,26 @@ public class InfoInput {
         this.ticket_no = ticket_no;
     }
 
-    public Date getSaleDate() {
+    public String getSaleDate() {
         return SaleDate;
     }
 
-    public void setSaleDate(Date saleDate) {
+    public void setSaleDate(String saleDate) {
         SaleDate = saleDate;
+    }
+
+    @Override
+    public String toString() {
+        return "InfoInput{" +
+                "ticket_seller_id=" + ticket_seller_id +
+                ", user_id=" + user_id +
+                ", ticket_no=" + ticket_no +
+                ", SaleDate='" + SaleDate + '\'' +
+                '}';
     }
 
     int ticket_seller_id;
     int user_id;
     int ticket_no;
-    Date SaleDate;
+    String SaleDate;
 }

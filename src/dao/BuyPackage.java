@@ -24,6 +24,7 @@ public class BuyPackage {
             //Statement接口提供了查询语句和获取查询结果的基本方法
             ps=connection.prepareStatement(sql_insert);
             ps.setString(1,ticket.getTicket_type());
+            System.out.println(ticket.getTicket_type());
             rs=ps.executeUpdate();
         } catch (SQLException e) {
             // TODO Auto-generated catch block

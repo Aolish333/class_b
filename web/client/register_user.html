@@ -1,0 +1,57 @@
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <title>注册页面</title>
+    <style type="text/css"></style>
+    <script type="text/javascript">
+        function check(register){
+            var username=register.username.value;
+            var password=register.password.value;
+            var password1=register.password1.value;
+            if(username==""){
+                alert("用户名不能为空");
+                register.username.focus();
+                register.username.select();
+                return false;
+            }
+            else if(password==""){
+                alert("密码不能为空");
+                register.password.focus();
+                register.password.select();
+                return false;
+            }
+            else if(password.length<6){
+                alert("密码不能少于六位");
+                register.password.focus();
+                register.password.select();
+                return false;
+            }
+            else if(password!=password1){
+                alert("密码不一致");
+                register.password1.focus();
+                register.password1.select();
+                return false;
+            }
+            return true;
+        }
+    </script>
+</head>
+<body>
+<center>
+    <form action="doinsert_user.jsp" method="post" name="register" onsubmit="return check(this)">
+        <table>
+            <tr><td>用户名：</td><td><input type="text" name="user_name">
+                <font color="red" size="1px">用户名不能为空</font>
+            </td></tr>
+            <tr><td>密码：</td><td><input type="password" name="user_psw">
+                <font color="red" size="1px">密码不能为空，且不少于六位</font>
+            </td></tr>
+            <tr><td>确认密码：</td><td><input type="password" name="password1"></td></tr>
+            <tr><td>年龄：</td><td><input type="text" name="user_age"></td></tr>
+            <tr align="center"><td colspan="2"><input type="submit" value="提交"><input type="reset" value="取消">
+                <input type="button" value="关闭" onclick="window.close()"></td></tr>
+        </table>
+    </form>
+</center>
+</body>
+</html>

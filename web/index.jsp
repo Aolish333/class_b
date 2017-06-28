@@ -34,7 +34,7 @@
         <form action="/ServletPackage/AllLoginServlet" method="get">
             <ul class="form-content">
                 <li class="login-items">
-                    <span class="iconfont icon-yonghuming pics"></span>
+                    <span class="iconfont icon-yonghuming pics"></span><!--(矢量图库)-->
                     <input class="login-user" name="user" type="text" placeholder="IconDeposit">
                 </li>
                 <li class="login-items">
@@ -53,12 +53,16 @@
                     <label class="square" for="checkbox"></label>
                     <label class="remember" for="checkbox">记住密码</label>
                 </li>
-                <li class="login-items rmb">
-                    <a class="forget" href="/manage/InsterStuMe.jsp">Forgot username or password?</a>
-                </li>
+
                 <li class="login-items">
                     <button type="submit" class="login-btn">Login</button>
                 </li>
+                <li class="login-items rmb" >
+                    <a href="/client/register.html">register</a></li>
+                <li class="login-items rmb">
+                    <a class="forget" href="/client/UpdateUser.jsp">Forgot username or password?</a>
+                </li>
+
             </ul>
         </form>
     </div>

@@ -60,13 +60,18 @@
                     <jsp:include page="typeStatic.jsp"/>
                 </div>
             </div>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
             <div class="row clearfix eye-protector-processed">
                 <div class="col-md-6 column eye-protector-processed">
-                    <jsp:include page="mouthStatic.jsp"/>
+                    <jsp:include page="test.jsp"/>
 
                 </div>
                 <div class="col-md-6 column eye-protector-processed">
-                    <jsp:include page="mouthStatic.jsp"/>
+                    <jsp:include page="dayStatistic.jsp"/>
 
                 </div>
             </div>
