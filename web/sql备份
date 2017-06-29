@@ -26,7 +26,7 @@ CREATE TABLE ticket (
   ticket_price INT,
   ticket_rate  INT,
   ticket_type  CHAR(20),
-  ticket_begin DATETIME DEFAULT ,
+  ticket_begin DATETIME ,
   ticket_end   DATETIME,
   PRIMARY KEY (ticket_no)
 )
@@ -70,10 +70,10 @@ CREATE TABLE INFO_INPUT (
   ticket_no        INT,
   user_id        INT,
   SaleDate DATETIME,
-#   PRIMARY KEY (ticket_seller_id, ticket_no, user_id),
-  FOREIGN KEY (ticket_seller_id) REFERENCES ticket_seller (ticket_seller_id),
-  FOREIGN KEY (ticket_no) REFERENCES class_b.ticket (ticket_no),
-  FOREIGN KEY (user_id) REFERENCES class_b.user (user_id)
+  PRIMARY KEY (ticket_seller_id, ticket_no, user_id)
+  #   FOREIGN KEY (ticket_seller_id) REFERENCES ticket_seller (ticket_seller_id),
+  #   FOREIGN KEY (ticket_no) REFERENCES class_b.ticket (ticket_no),
+  #   FOREIGN KEY (user_id) REFERENCES class_b.user (user_id)
 )  CHARSET = utf8;
 
 # 插入数据
@@ -95,7 +95,7 @@ INSERT INTO ticket (ticket_name, ticket_price, ticket_rate, ticket_type, ticket_
 
 # 购买票
 INSERT INTO buy_ticket (user_id, ticket_no, buy_ticket_time) VALUES (
-    1,1,"2017-6-25"
+  1,1,"2017-6-25"
 );
 
 # 退票
@@ -124,7 +124,7 @@ FROM INFO_INPUT, ticket WHERE INFO_INPUT.ticket_no = ticket.ticket_no GROUP BY  
 
 
 # 查询各种门票价格的销售情况
-    # 查询总的销售量
+# 查询总的销售量
 SELECT
   ticket.ticket_type,
   ticket.ticket_price,
@@ -133,7 +133,7 @@ SELECT
 FROM ticket
 GROUP BY ticket_type;
 
-      # 查询某个销售员的销售量
+# 查询某个销售员的销售量
 
 
 
@@ -190,10 +190,10 @@ WHERE ticket.ticket_no NOT IN (SELECT ticket_no FROM refund_ticket) AND INFO_INP
 ###查询各门票销售类型的销售情况
 
 SELECT ticket.ticket_type ,ticket.ticket_price, sum(ticket.ticket_price)总收入,count(ticket.ticket_no)销售量
-FROM ticket,INFO_INPUT WHERE ticket_seller_id =4 AND INFO_INPUT.ticket_no = ticket.ticket_no AND ticket.ticket_no NOT IN (SELECT ticket_no FROM refund_ticket) GROUP BY ticket_type;
+FROM ticket,INFO_INPUT WHERE ticket_seller_id =5 AND INFO_INPUT.ticket_no = ticket.ticket_no AND ticket.ticket_no NOT IN (SELECT ticket_no FROM refund_ticket) GROUP BY ticket_type;
 
 ##指定日期的销售情况
-SELECT ticket.ticket_type ,ticket.ticket_price, sum(ticket.ticket_price)总收入,count(ticket.ticket_no)销售量 FROM ticket, INFO_INPUT WHERE ticket_seller_id = 4 AND INFO_INPUT.ticket_no = ticket.ticket_no AND SaleDate="2017-6-25" AND ticket.ticket_no NOT IN (SELECT ticket_no FROM refund_ticket) GROUP BY ticket_type;
+SELECT ticket.ticket_type ,ticket.ticket_price, sum(ticket.ticket_price)总收入,count(ticket.ticket_no)销售量 FROM ticket, INFO_INPUT WHERE ticket_seller_id = 5 AND INFO_INPUT.ticket_no = ticket.ticket_no AND SaleDate="2017-6-29" AND ticket.ticket_no NOT IN (SELECT ticket_no FROM refund_ticket) GROUP BY ticket_type;
 
 
 # 修改触发器时使用
@@ -204,22 +204,22 @@ definingTicket;
 #学生票15  原价30 成人票30 团体票25 小孩及老人票20
 # 定义触发器对票价进行管理
 CREATE TRIGGER definingTicket
-  BEFORE INSERT ON ticket
-  FOR EACH ROW
-   BEGIN
-     IF (new.ticket_type = "学生票")
-     THEN
-       SET NEW.ticket_price = "15";
-     ELSEIF (NEW.ticket_type = "成人票")
-       THEN SET NEW.ticket_price = "30";
-     ELSEIF (NEW.ticket_type = "团体票")
-       THEN SET NEW.ticket_price = "25";
-     ELSEIF (NEW.ticket_type = "老人票")
-       THEN SET NEW.ticket_price = "20";
-     ELSEIF (NEW.ticket_type = "儿童票")
-       THEN SET NEW.ticket_price = "20";
-     END IF;
-   END;
+BEFORE INSERT ON ticket
+FOR EACH ROW
+  BEGIN
+    IF (new.ticket_type = "学生票")
+    THEN
+      SET NEW.ticket_price = "15";
+    ELSEIF (NEW.ticket_type = "成人票")
+      THEN SET NEW.ticket_price = "30";
+    ELSEIF (NEW.ticket_type = "团体票")
+      THEN SET NEW.ticket_price = "25";
+    ELSEIF (NEW.ticket_type = "老人票")
+      THEN SET NEW.ticket_price = "20";
+    ELSEIF (NEW.ticket_type = "儿童票")
+      THEN SET NEW.ticket_price = "20";
+    END IF;
+  END;
 # 买票(先插入票，在插入购买票)
 ##############################################################
 INSERT INTO ticket (ticket_name, ticket_price, ticket_rate, ticket_type, ticket_begin, ticket_end) VALUES ("二龙山",20,10,"团体票","2017-6-25","2017-6-26");
@@ -260,23 +260,50 @@ SELECT ticket.* FROM ticket,buy_ticket WHERE buy_ticket.ticket_no=ticket.ticket_
 #                                                                                                                     FROM ticket
 #                                                                                                                       LEFT JOIN refund_ticket ON ticket.ticket_no = refund_ticket.ticket_no
 #                                                                                                                     WHERE ticket.ticket_no NOT IN (SELECT ticket_no FROM refund_ticket WHERE refund_ticket.user_id  = 1));
-#
-#
-# SELECT * FROM ticket,refund_ticket WHERE refund_ticket.ticket_no = ticket.ticket_no AND ticket.ticket_no IN (SELECT ticket.ticket_no
-#                                                                                                                     FROM ticket
-#                                                                                                                       LEFT JOIN refund_ticket ON ticket.ticket_no = refund_ticket.ticket_no
-#                                                                                                                     WHERE ticket.ticket_no NOT IN (SELECT ticket_no FROM refund_ticket ) ) ;
 
 
-# WHERE refund_ticket.user_id  = 1
+# SELECT * FROM ticket,refund_ticket WHERE refund_ticket.ticket_no = ticket.ticket_no AND ticket.ticket_no IN (SELECT ticket.ticket_no FROM  LEFT JOIN refund_ticket ON ticket.ticket_no = refund_ticket.ticket_no  WHERE ticket.ticket_no NOT IN (SELECT ticket_no FROM refund_ticket ) ) ;
+
+
+WHERE refund_ticket.user_id  = 1
 
 
 
 # 销售员填写销售信息
 ####################################################################
-INSERT INTO ticket (ticket_name, ticket_price, ticket_rate, ticket_type, ticket_begin, ticket_end) VALUES ("二龙山",20,10,"团体票","2017-6-25","2017-6-26");
+INSERT INTO ticket (ticket_name, ticket_price, ticket_rate, ticket_type, ticket_begin, ticket_end) VALUES ("二龙山",20,10,"学生票","2017-6-25","2017-6-26");
 
-INSERT INTO  info_input(ticket_seller_id,ticket_no,user_id,SaleDate) VALUES(5,(SELECT max(ticket_no) FROM ticket ORDER BY ticket.ticket_no),2,CURDATE());
+INSERT INTO  info_input(ticket_seller_id,ticket_no,user_id,SaleDate) VALUES(4,(SELECT max(ticket_no) FROM ticket ORDER BY ticket.ticket_no),1,CURDATE());
 #####################################################################
 
 
+INSERT INTO  info_input(ticket_seller_id,ticket_no,user_id,SaleDate) VALUES(?,(SELECT max(ticket_no) FROM ticket ORDER BY ticket.ticket_no),?,CURDATE());
+
+
+SELECT ticket.* FROM ticket,buy_ticket WHERE buy_ticket.ticket_no=ticket.ticket_no AND user_id=? AND ticket.ticket_no NOT IN (SELECT ticket_no FROM refund_ticket WHERE refund_ticket.user_id  = ?) UNION SELECT ticket.* FROM ticket,INFO_INPUT WHERE INFO_INPUT.ticket_no =ticket.ticket_no AND user_id =? AND ticket.ticket_no NOT IN (SELECT ticket_no FROM refund_ticket WHERE refund_ticket.user_id  = ?) ;
+
+
+
+SELECT ticket.ticket_type ,ticket.ticket_price, sum(ticket.ticket_price)总收入,count(ticket.ticket_no)销售量 FROM ticket, INFO_INPUT WHERE ticket_seller_id = ? AND INFO_INPUT.ticket_no = ticket.ticket_no AND SaleDate= "2017-6-28" AND ticket.ticket_no NOT IN (SELECT ticket_no FROM refund_ticket) GROUP BY ticket_type;
+
+#销售上传
+INSERT INTO  info_input(ticket_seller_id,ticket_no,user_id,SaleDate) VALUES(?,(SELECT max(ticket_no) FROM ticket ORDER BY ticket.ticket_no),?,CURDATE());
+
+#用户注册
+insert into user(user_name,user_psw,user_age) values(?,?,?);
+insert into ticket_seller(ticket_seller_name,ticket_seller_psw,ticket_seller_call) values(?,?,?);
+#用户修改
+select * from user where user_id=?;
+UPDATE  user SET user_name=?,user_psw=?,user_age=? WHERE user_id=?;
+
+
+SELECT *
+FROM ticket, info_input
+WHERE ticket.ticket_no = INFO_INPUT.ticket_no;
+
+
+
+
+
+DELETE FROM ticket
+WHERE class_b.ticket.ticket_no = 1;

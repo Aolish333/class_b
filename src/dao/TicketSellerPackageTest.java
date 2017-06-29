@@ -58,7 +58,7 @@ public class TicketSellerPackageTest {
         String strDate = sdf.format(date);
         System.out.println(strDate);
         InfoInput infoInput = new InfoInput();
-        infoInput.setUser_id(4);
+        infoInput.setUser_id(5);
         infoInput.setSaleDate(strDate);
         TicketSellerPackage ticketSellerPackage = new TicketSellerPackage();
 

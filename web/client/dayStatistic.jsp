@@ -58,6 +58,8 @@
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             String strDate = sdf.format(date);
             infoInput.setSaleDate(strDate);
+    %>
+    <%
             TicketSellerPackage ticketSellerPackage = new TicketSellerPackage();
             List<SalesStatus> list = ticketSellerPackage.SelectSalesStatus___date(infoInput);
     %>

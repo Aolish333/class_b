@@ -28,7 +28,8 @@ public class BuyTicketServlet extends HttpServlet {
 //        获取seesion
         HttpSession session = request.getSession();
         String  user_id = (String) session.getAttribute("User_id");
-        String ticket_type = request.getParameter("ticket_type");
+
+        String ticket_type = String.valueOf(request.getParameter("ticket_type"));
         //用户设置
         User user = new User();
         user.setUser_id(Integer.parseInt(user_id));
